@@ -1,5 +1,6 @@
 import logo from './logo.svg';
-import './App.css';
+import './styles/main.scss';
+import ProgressBar from './components/ProgressBar.js'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         >
           Learn React
         </a>
+        <ProgressBar percent={30}/>
       </header>
     </div>
   );
