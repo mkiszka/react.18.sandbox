@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react';
+import ProgressArc from './ProgressArc';
 
 class MyPrettyCanvas extends React.Component {
   constructor(props) {
@@ -16,8 +17,7 @@ class MyPrettyCanvas extends React.Component {
     ctx.fillStyle = "rgba(0,150,0,0.2)";
     ctx.save();
     ctx.translate(size / 2, size / 2);
-    //    console.log(size);
-    // minuta: 6:06
+ 
     const maxRectSize = size / Math.sqrt(2);
     for (let index = 0; index < rectanglesCount; index++) {
       const rectSize = maxRectSize * (index / (rectanglesCount));
@@ -47,14 +47,13 @@ class MyPrettyCanvas extends React.Component {
 
   update = () => {
     this.time += 0.02;
-    this.draw();
-    console.log(this.time);
+    this.draw();    
     this.animationRequestedId = window.requestAnimationFrame(this.update);
   }
 
   render() {
     const { size } = this.props;
-    return <canvas ref={this.canvas} width={size} height={size} style={{ border: "1px solid red" }} />
+    return <canvas ref={this.canvas} width={size} height={size} className={"borderRed"} />
   }
 }
 class App extends React.Component {
@@ -78,6 +77,7 @@ class App extends React.Component {
               type="number" value={reactAmount} 
               onChange={(event) => {this.setState({ reactAmount: (event.target.value>=0?event.target.value:0) })}}></input>
         </div>
+        <ProgressArc/>
       </div>
     );
   }
