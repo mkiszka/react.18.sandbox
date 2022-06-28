@@ -77,7 +77,7 @@ class App extends React.Component {
               type="number" value={reactAmount} 
               onChange={(event) => {this.setState({ reactAmount: (event.target.value>=0?event.target.value:0) })}}></input>
         </div>
-        <ProgressArc className="borderRed" percent={75} color="red" size={100}/>
+        <ProgressArc className="" percent={75} color="red" size={100} trackRemaining={true}/>
       </div>
     );
   }

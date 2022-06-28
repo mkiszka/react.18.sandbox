@@ -9,7 +9,14 @@ class ProgressArc extends React.Component {
 
     draw = () => {
         //https://developer.mozilla.org/pl/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes
-        const { size, percent, color } = this.props;        
+        const { size, percent, color, trackRemaining } = this.props;
+
+        let precentOfCircle;
+        if( trackRemaining ) {
+            precentOfCircle = (100 - percent) / 100;
+        } else {
+            precentOfCircle = percent / 100;
+        }
 
         /** @type {CanvasRenderingContext2D} */
         const context = this.canvas.current.getContext("2d");
@@ -19,12 +26,16 @@ class ProgressArc extends React.Component {
         context.strokeStyle = color;
 
         context.save();
-        context.beginPath();        
-        context.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2 * percent / 100, false);
-        // context.fill();
+        context.beginPath();
+        
+        console.log(precentOfCircle);
+        context.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2 * precentOfCircle, false);        
+        context.lineTo(size/2, size / 2);        
+        context.lineTo(size, size/2);
+        context.fill();
+        
         context.stroke();
         context.restore();
-
 
     }
     componentDidMount() {
