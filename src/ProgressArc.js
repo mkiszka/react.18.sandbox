@@ -1,24 +1,30 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class ProgressArc extends React.Component {
     constructor(props) {
         super(props);
         this.canvas = React.createRef();
-        this.time = 0;
     }
-    draw() {
+
+    draw = () => {
         //https://developer.mozilla.org/pl/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes
-        let { size } = this.props;
-        size = 100;
-        const rectSize = 50;
+        const { size, percent, color } = this.props;        
+
         /** @type {CanvasRenderingContext2D} */
         const context = this.canvas.current.getContext("2d");
+
         context.clearRect(0, 0, size, size);
-        context.fillStyle = "rgba(0,150,0,0.2)";
+        context.fillStyle = color;
+        context.strokeStyle = color;
+
         context.save();
-        context.fillRect(0, 0, rectSize, rectSize);
-        context.arc(150,150,40,0,90,true);
+        context.beginPath();        
+        context.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2 * percent / 100, false);
+        // context.fill();
+        context.stroke();
         context.restore();
+
 
     }
     componentDidMount() {
@@ -26,11 +32,36 @@ class ProgressArc extends React.Component {
     }
 
     render() {
+        const { trackRemaining, className, size } = this.props;
         return (
-            <canvas ref={this.canvas} width={300} height={300} className={"borderRed"} />
+            <canvas ref={this.canvas} width={size} height={size} className={className} />
         )
-
     }
 }
+
+//min, max, 
+function validateNumberRange(min, max) {
+    return (prop, propName, componentName) => {
+        const val = prop[propName];
+        if (!(val >= min && val <= max)) {
+            return new Error(`${propName} in ${componentName} is not within [${min},${max}]`);
+        }
+    }
+}
+
+ProgressArc.defaultProps = {
+    percent: 0,
+    trackRemaining: false,
+    color: 'red',
+    className: "",
+    size: 100
+};
+
+ProgressArc.propTypes = {
+    percent: validateNumberRange(0, 100),
+    trackRemaining: PropTypes.bool,
+    className: PropTypes.string,
+    color: PropTypes.oneOf(['red', 'green', 'blue'])
+};
 
 export default ProgressArc;
