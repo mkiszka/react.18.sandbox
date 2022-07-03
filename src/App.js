@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
+import _ from "lodash";
 import "./App.css";
 
 const data = {
@@ -75,40 +75,47 @@ export default class App extends React.Component {
   };
 
   render() {
-    const temporaryArticles = [
-      {
-        title: "First article",
-        paragraphs: [
-          "This is a sentence. And a second sentence",
-          "This is a start of a new paragraph"
-        ],
-        words: [
-          "this",
-          "is",
-          "a",
-          "sentence",
-          "and",
-          "a",
-          "second",
-          "sentence",
-          "this",
-          "is",
-          "a",
-          "start",
-          "of",
-          "a",
-          "new",
-          "paragraph"
-        ]
-      },
-      {
-        title: "Second article",
-        paragraphs: ["Just one paragraph"],
-        words: ["just", "one", "paragraph"]
-      }
-    ];
-    const currentArticle = temporaryArticles[this.state.articleIndex];
-    const options = [[0, "First article"], [1, "Second article"]];
+  
+    const titles = _.chain(data)
+      .map((value, key) => _.lowerCase(key))
+      // .tap(console.log)
+      .map(_.upperFirst)
+      // .tap(console.log)
+      .value();
+  
+    const paragraphs = _.chain(data)
+      .map(article =>
+        _.chain(article)
+          .map(paragraph =>
+            _.chain(paragraph)
+              .map((sentence) =>
+                _.chain(sentence)
+                  .upperFirst()
+                  .thru(value => value + ".")
+                  .value()
+              )
+              .join(" ")
+              .upperFirst()
+              .value())
+          .value()
+      ).value();
+
+    const words = _.chain(data)
+      .map(article =>
+        _.chain(article)
+          .flattenDeep()
+          .flatMap(sentence => _.chain(sentence).words().value())          
+          .value()
+      )     
+      .value();
+    const articles = _.chain(_.zip(titles, paragraphs, words))
+      //.map(arr => { return {title: arr[0], paragraphs: arr[1], words: arr[2] }})
+      .map(([title, paragraphs, words]) => ({title, paragraphs, words }))
+      .tap(console.log)
+      .value();
+    const options = _.map(titles, (value, index) => [index, value]);
+    const currentArticle = articles[this.state.articleIndex];
+
     return (
       <>
         <Select
@@ -149,18 +156,7 @@ function Article({ title, paragraphs }) {
   );
 }
 function UniqueWords({ words }) {
-  const uniqueWords = [
-    "a",
-    "and",
-    "is",
-    "new",
-    "of",
-    "paragraph",
-    "second",
-    "sentence",
-    "start",
-    "this"
-  ];
+  const uniqueWords = _.uniq(words);
   return (
     <ul>
       {uniqueWords.map(word => (
