@@ -1,7 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import _ from "lodash";
 import "./App.css";
+import WordCount from "./components/WordCount";
 
 const data = {
   "lorem-ipsum": [
@@ -75,14 +75,14 @@ export default class App extends React.Component {
   };
 
   render() {
-  
+
     const titles = _.chain(data)
       .map((value, key) => _.lowerCase(key))
       // .tap(console.log)
       .map(_.upperFirst)
       // .tap(console.log)
       .value();
-  
+
     const paragraphs = _.chain(data)
       .map(article =>
         _.chain(article)
@@ -104,29 +104,31 @@ export default class App extends React.Component {
       .map(article =>
         _.chain(article)
           .flattenDeep()
-          .flatMap(sentence => _.chain(sentence).words().value())          
+          .flatMap(sentence => _.chain(sentence).words().value())
           .value()
-      )     
+      )
       .value();
     const articles = _.chain(_.zip(titles, paragraphs, words))
       //.map(arr => { return {title: arr[0], paragraphs: arr[1], words: arr[2] }})
-      .map(([title, paragraphs, words]) => ({title, paragraphs, words }))
+      .map(([title, paragraphs, words]) => ({ title, paragraphs, words }))
       .tap(console.log)
       .value();
     const options = _.map(titles, (value, index) => [index, value]);
     const currentArticle = articles[this.state.articleIndex];
-
+    const currentWords = words[this.state.articleIndex];
     return (
       <>
         <Select
           onChange={articleIndex => this.setState({ articleIndex })}
           options={options}
-        />
+        />        
         <h1>The article</h1>
         <Article
           title={currentArticle.title}
           paragraphs={currentArticle.paragraphs}
         />
+        <h1>Statistics</h1>
+        <WordCount words={currentWords}></WordCount>        
         <h1>Unique words</h1>
         <UniqueWords words={currentArticle.words} />
       </>
