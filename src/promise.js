@@ -1,27 +1,11 @@
-require('console');
-function calculate(a, b) {
-    return new Promise((resolve, reject) => {
-        if (Math.round(Math.random()) == 1) {
-            return a + b;
-        }
-        return a + b;
-        //reject(new Error("Screwed"));
-    })
-}
-console.log("a");
-
-calculate(4, 5).then(value => console.log(value));
 
 //https://developer.chrome.com/blog/new-in-devtools-84/#promises
 
 function wait(ms) {
-
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 function delayedErrors(ms, message) {
-    
-    
     return new Promise((resolve, reject) => { setTimeout(reject(new Error(message), ms)); });
 }
 
@@ -33,16 +17,50 @@ function isEven(num) {
         if (num % 2 == 0) {
             resolve(true);
         } else {
-            resolve(false)
+            resolve(false);
         }
     });
 }
 
 function slowIsEven(num, ms = 1000) {
-    return wait(ms).then(isEven(num));
+    return wait(ms).then(() => { return isEven(num) });
 }
 
-function slowIsEven(num, ms = 1000) {
-    return wait(ms).then(()=> {return isEven(num)});
+function timeout_v1(promise, ms) {
+    const rejection = new Promise((resolve, reject) => { setTimeout(() => reject('Nie udało się'), ms) });
+    return Promise
+        .race(
+            [
+                promise,
+                rejection
+            ]
+        )
+        .then((value) => { return value; }, (rejectValue) => { throw new Error(rejectValue) });
 }
 
+function timeout_v2(promise, ms) {
+
+    return Promise
+        .race(
+            [
+                promise,
+                delayedErrors(ms, 'Nie udało się')
+            ]
+        )
+        .then((value) => { return value; });
+}
+
+function timeout_v3(promise, ms) {
+
+    return Promise
+        .race(
+            [
+                promise,
+                delayedErrors(ms, 'Nie udało się')
+            ]
+        )
+        .then((value) => { return value; }, (rejectValue) => Promise.reject(rejectValue));
+}
+
+//https://www.geeksforgeeks.org/reject-vs-throw-promises-in-javascript/
+console.log("test");
