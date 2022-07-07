@@ -26,6 +26,19 @@ function slowIsEven(num, ms = 1000) {
     return wait(ms).then(() => { return isEven(num) });
 }
 
+async function slowIsEven(num, ms = 1000) {
+    await wait(ms);
+    return await isEven(num);
+}
+/*
+Wywołanie: 
+const result = await slowIsEven(num, ms = 1000);
+
+spowoduje, że w result mamy wartość boolową obliczaną w promisach z isEven
+
+}
+*/
+
 function timeout_v1(promise, ms) {
     const rejection = new Promise((resolve, reject) => { setTimeout(() => reject('Nie udało się'), ms) });
     return Promise
