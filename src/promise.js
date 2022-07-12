@@ -6,7 +6,15 @@ function wait(ms) {
 }
 
 function delayedErrors(ms, message) {
-    return new Promise((resolve, reject) => { setTimeout(reject(new Error(message), ms)); });
+    return new Promise(
+        (resolve, reject) => {
+            setTimeout(() => {
+                    reject(new Error(message))
+                },                
+                ms
+            );
+        }
+    );
 }
 
 function isEven(num) {
@@ -76,4 +84,10 @@ function timeout_v3(promise, ms) {
 }
 
 //https://www.geeksforgeeks.org/reject-vs-throw-promises-in-javascript/
-console.log("test");
+//console.log("test");
+//delayedErrors(4000, "test");
+console.log('start test');
+(async () => {
+    console.log(await timeout_v3(slowIsEven(4, 4000), 3000));
+}
+) ();
