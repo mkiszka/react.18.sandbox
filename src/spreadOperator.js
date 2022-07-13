@@ -11,14 +11,18 @@ let prevTimeboxes =
 
 const updateElement = (prevTimeboxes, id, newValue) => {
     return prevTimeboxes.map(
-        (act_timebox, act_id) => { return act_id === id ? { ...act_timebox, totalTimeInMinutes: newValue } : act_timebox }
+        (actTimebox, actId) => { return actId === id ? { ...actTimebox, totalTimeInMinutes: newValue } : actTimebox }
     )
 }
 
 const updateElement_v2 = (prevTimeboxes, id, newValue) => {
     return Object.assign([], prevTimeboxes, { [id]: { ...prevTimeboxes[id], totalTimeInMinutes: newValue } });
-    // return [...prevTimeboxes, [id]:updatedImage]
+    
 }
+
+// const updateElement_v3 = (prevTimeboxes, id, newValue) => {
+//     return [...prevTimeboxes, [id]: { ...prevTimeboxes[id], totalTimeInMinutes: newValue }]    
+// }
 
 console.log(prevTimeboxes);
 console.log(updateElement(prevTimeboxes, 1, 195));
