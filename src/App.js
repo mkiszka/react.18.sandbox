@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import PortalFunctionalComponent from './PortalFunctionalComponent';
+import SomeComponent from './SomeComponent';
 function App() {
   return (
     <div className="App">
@@ -18,9 +19,8 @@ function App() {
           Learn React
         </a>
       </header>
-      <PortalFunctionalComponent>
-        <p style={{backgroundColor: 'red', position: 'absolute', top: '0px'}}>Learn React</p>
-      </PortalFunctionalComponent>
+      <SomeComponent />
+        
     </div>
   );
 }
