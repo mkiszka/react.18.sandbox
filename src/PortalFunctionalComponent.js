@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-function createElement(element) {
-     return document.createElement(element,{ id: 'worek', title: Math.random() * 1000})
-}
+
+const container = document.createElement('div');
 function PortalFunctionalComponent(props) {
-    const a = props.refresh;
-    const [container] = useState(() => {return createElement()});
+
     useEffect(() => {
         document.body.appendChild(container);
         return () => {

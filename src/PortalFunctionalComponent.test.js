@@ -7,7 +7,7 @@ describe('Portal PortalFunctionalComponent', () => {
             <p style={{ backgroundColor: 'red', position: 'absolute', top: '0px' }}>Learn React</p>
         </PortalFunctionalComponent>);
 
-        rerender(<PortalFunctionalComponent refresh='2'>
+        rerender(<PortalFunctionalComponent refresh='1'>
         <p style={{ backgroundColor: 'red', position: 'absolute', top: '0px' }}>Learn React</p>
     </PortalFunctionalComponent>)
         container.refresh = 'abc';
