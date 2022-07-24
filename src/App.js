@@ -9,6 +9,9 @@ import { v4 as uuid } from 'uuid';
 const INITIAL_NOTES = { notes: [{ id: uuid(), title: 't1', description: 't2' }], currentNote: null }
 const ADD_NEW_NOTE = 'addNewNote';
 const DELETE_NOTE = 'deleteNote';
+function initNotes(initialValue) {
+  return initialValue;
+}
 function noteReducer(prevState, action) {
   let notes;
   switch (action.type) {
@@ -36,7 +39,7 @@ function App() {
     dispatch({ type: DELETE_NOTE, id: id })
   }
 
-  const [notesList, noteListDispatch] = useReducer(noteReducer, INITIAL_NOTES);
+  const [notesList, noteListDispatch] = useReducer(noteReducer, INITIAL_NOTES, initNotes);
   console.log('render', notesList);
   return (
     <div className="App">
