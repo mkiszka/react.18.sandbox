@@ -3,10 +3,10 @@ import ReactDOM from "react-dom/client";
 
 import "./index.css";
 
-function fib(n) {
-  if (n <= 1) return n;
-  return fib(n - 2) + fib(n - 1);
-}
+// function fib(n) {
+//   if (n <= 1) return n;
+//   return fib(n - 2) + fib(n - 1);
+// }
 
 function fib2(n) {
   if (n <= 1) {
@@ -18,15 +18,18 @@ function fib2(n) {
 const FIB_INCREMENT = 'inc';
 const FIB_DECREMENT = 'dec';
 const FIB_RESET = 'reset';
-function getInitialFibs(initialN) {
+
+function initFibonacci(initialN) {
   const [prev, current] = fib2(initialN);
   return {
-    prev,
-    current,
-    next: prev + current
-  };
+    fibs: {
+      prev,
+      current,
+      next: prev + current
+    }, 
+    n: initialN
+  }
 }
-
 
 function fibonacciReducer(prevState, action) {
   switch (action.type) {
@@ -49,32 +52,21 @@ function fibonacciReducer(prevState, action) {
         }
       }
     case FIB_RESET:
-      return { fibs: getInitialFibs(action.initialN), n: action.initialN }
+      return initFibonacci(action.initialN);
     default:
       return prevState;
   }
 }
 
 function useFibonacciCounter(initialN) {
-  const [fibonacci, dispatchFib] = useReducer(fibonacciReducer, 
-      { fibs: getInitialFibs(initialN), n: initialN })
-  //const [fibs, setFibs] = useState(getInitialFibs);
-  //const [n, setN] = useState(initialN);
-  //const currentFibonacciNumber = fibonacci.fibs.current;
-
-
-
-  // function resetN() {
-  //   dispatchFib({ type: FIB_RESET, initialN: initialN });
-
-  // }
+  const [fibonacci, dispatchFib] = useReducer(fibonacciReducer, initialN, initFibonacci)
 
   return {
     n: fibonacci.n,
     currentFibonacciNumber: fibonacci.fibs.current,
     incrementN: () => { dispatchFib({ type: FIB_INCREMENT }); },
     decrementN: () => { dispatchFib({ type: FIB_DECREMENT }); },
-    resetN: () => { dispatchFib({ type:FIB_RESET, initialN: initialN }); }
+    resetN: () => { dispatchFib({ type: FIB_RESET, initialN: initialN }); }
 
   };
 }
