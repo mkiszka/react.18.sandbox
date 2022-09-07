@@ -1,9 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
-import Message from './Message';
+import ConnectedMessage from './Message';
+import AnotherComponent from './AnotherComponent';
 
 function App() {
-  return (
+  return (    
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
@@ -18,7 +19,8 @@ function App() {
         >
           Learn React
         </a>
-        <Message/>
+        <ConnectedMessage/>
+        <AnotherComponent/>
       </header>
     </div>
   );
