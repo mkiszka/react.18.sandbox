@@ -1,7 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-import ConnectedMessage from './Message';
-import AnotherComponent from './AnotherComponent';
+import AnotherComponent from './components/AnotherComponent';
+import ConnectedMessage from './components/Message';
+
 
 function App() {
   return (    
