@@ -3,16 +3,6 @@ import { createSlice } from '@reduxjs/toolkit'
 //https://stackoverflow.com/questions/62977443/how-to-reuse-the-reducer-logic-in-redux-toolkit-createslice-function
 //https://redux-toolkit.js.org/api/createSlice
 //https://stackoverflow.com/questions/48393828/duplicating-state-in-redux
-// export function counter(state = 0, action) {
-//     switch (action.type) {
-//         case 'INCREMENT':
-//             return state + 1
-//         case 'DECREMENT':
-//             return state - 1
-//         default:
-//             return state
-//     }
-// }
 
 const initialState = {}
 const initialCounterState = {
@@ -38,8 +28,7 @@ const counterSlice = createSlice({
 })
 
 //selektory
-export const getValue = (componentId) => (state) => {
-    console.log(state)
+export const getValue = (componentId) => (state) => {    
     return state?.counter?.[componentId]?.value ?? null;
 }
 
