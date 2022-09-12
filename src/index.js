@@ -5,13 +5,26 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
-import { rootReducer } from './reducers/rootReducer';
+// import { messageReducer } from './state/messageReducer';
+// import { anotherComponentReducer } from './state/anotherComponentReducer';
+import counterReducer from './state/counterReducer';
+// import { createNamedWrapperReducer } from './state/namedWrapperReducer';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const store = configureStore({ reducer: rootReducer })
-root.render(  
+const store = configureStore({
+
+  reducer: {
+    // message: messageReducer,
+    // another: anotherComponentReducer,
+    counter: counterReducer
+    // counterDone: createNamedWrapperReducer(counterReducer, 'Done'),
+    // counterWillDo: createNamedWrapperReducer(counter, 'WillDo'),
+  }
+})
+
+root.render(
   <React.StrictMode>
-    <Provider store={ store }>
+    <Provider store={store}>
       <App />
     </Provider>
   </React.StrictMode>

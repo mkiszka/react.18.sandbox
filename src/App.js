@@ -1,7 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
-import AnotherComponent from './components/AnotherComponent';
-import ConnectedMessage from './components/Message';
+// import AnotherComponent from './components/AnotherComponent';
+// import ConnectedMessage from './components/Message';
+import Counter from './components/Counter';
+
 
 
 function App() {
@@ -20,8 +22,12 @@ function App() {
         >
           Learn React
         </a>
-        <ConnectedMessage/>
-        <AnotherComponent/>
+        <Counter />     
+        <Counter />     
+        <Counter />     
+        {/* <Counter /> */}
+        {/* <ConnectedMessage/>
+        <AnotherComponent/> */}
       </header>
     </div>
   );
