@@ -1,28 +1,25 @@
 
-import { useCallback, useEffect, useId } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getValue, increment, initializeState } from "../state/counterReducer";
+import { useCallback, useId, useState } from "react";
+import { useSelector } from "react-redux";
+import { useCounter } from "../hook/useCounter";
 // import { v4 as uuidv4 } from 'uuid';
 
 function Counter() {
-
+    const [incrementAmount, setIncrementAmount] = useState(2);
     const componentId = useId();
-    const dispatch = useDispatch();
+    const { getValue, increment, decrement, incrementByAmount } = useCounter(componentId);
 
-    useEffect(() => {
-        dispatch(initializeState({ componentId }));
-    }, [dispatch, componentId]);
+    const value = useSelector(getValue);
+    const incrementByAmountOnClick = useCallback((event) => {
+        incrementByAmount(incrementAmount);
+    }, [incrementByAmount, incrementAmount]);
 
-    const value = useSelector(getValue(componentId));
-    
-    const handleClick = useCallback(
-        () => {
-            dispatch(increment({ componentId }));
-        },
-        [dispatch, componentId],
-    )    
-
-    return (<div><button onClick={handleClick}>click me</button> {value} - {componentId} </div>);
+    return (<div>
+        <button onClick={decrement}>-</button>
+        <button onClick={increment}>+</button>
+        <input type="number" value={incrementAmount} onChange={(event) => { setIncrementAmount(event.target.value) }} style={{ width: '50px' }} />
+            <button onClick={incrementByAmountOnClick}>+ {incrementAmount}</button>
+        {value} - {componentId} </div>);
 }
 
-export default Counter;
+export default Counter; 

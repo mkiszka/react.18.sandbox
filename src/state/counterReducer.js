@@ -12,26 +12,30 @@ const counterSlice = createSlice({
     name: 'counter',
     initialState,
     reducers: {
-        increment(state, action) {            
-            state[action.payload.componentId].value++;
+        increment(state, action) {                        
+            state[action.payload.counterId].value++;
         },
         decrement(state, action) {            
-            state[action.payload.componentId].value++;
+            state[action.payload.counterId].value--;
         },
-        incrementByAmount(state, action) {            
-            state[action.payload.componentId].value += action.payload.value;
+        incrementByAmount(state, action) {      
+            console.log(action) ;
+            state[action.payload.counterId].value += action.payload.value;
         },
-        initializeState(state, action) {            
-            state[action.payload.componentId] = { ...initialCounterState };
+        initializeState(state, action) {               
+            state[action.payload.counterId] = { ...initialCounterState };
         }
     },
 })
 
 //selektory
-export const getValue = (componentId) => (state) => {    
-    return state?.counter?.[componentId]?.value ?? null;
+export const getValue = (counterId) => (state) => {  
+    return state?.counter?.[counterId]?.value ?? null;
 }
-
+export const isInitialized = (counterId) => (state) => {
+    return state?.counter?.[counterId] !== undefined;
+}
+//export const actions = counterSlice;
 export const { increment, decrement, incrementByAmount, initializeState } = counterSlice.actions
 export default counterSlice.reducer
 
