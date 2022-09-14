@@ -22,4 +22,4 @@ function Counter() {
         {value} - {componentId} </div>);
 }
 
-export default Counter; 
+export default Counter;

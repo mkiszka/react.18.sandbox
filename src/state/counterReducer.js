@@ -28,14 +28,14 @@ const counterSlice = createSlice({
     },
 })
 
-//selektory
+//selectors
 export const getValue = (counterId) => (state) => {  
     return state?.counter?.[counterId]?.value ?? null;
 }
 export const isInitialized = (counterId) => (state) => {
     return state?.counter?.[counterId] !== undefined;
 }
-//export const actions = counterSlice;
+//exports
 export const { increment, decrement, incrementByAmount, initializeState } = counterSlice.actions
 export default counterSlice.reducer
 

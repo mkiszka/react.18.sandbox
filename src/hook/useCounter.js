@@ -9,26 +9,24 @@ import {
 } from "../state/counterReducer";
 
 export const useCounter = (id) => {
-    const [isInitialized, setInitialized] = useState(false);
+   
     const dispatch = useDispatch();
-        
+
     //ACTION GENERATORS    
     const initializeState = useCallback(() => dispatch(reducer_InitializeState({ counterId: id })), [dispatch, id]);
     const increment = useCallback(() => { dispatch(reducer_increment({ counterId: id }))}, [dispatch,id]);
     const decrement = useCallback(() => { dispatch(reducer_decrement({ counterId: id }))}, [dispatch,id]);
     const incrementByAmount = useCallback((value) => { dispatch(reducer_incrementByAmount({ counterId: id, value }))}, [dispatch,id]);
 
+    const [isInitialized, setInitialized] = useState(false);
+    if( !isInitialized ) {        
+        initializeState({ counterId: id });
+        setInitialized(true);
+    }
+
     //SELECTORS
     const getValue = reducer_getValue(id);
-
-    //Initialize component state
-    //konsultacja ogólna - inicjalizeState odbywa się dopiero po wygenerowaniu komponentu - więc komponent najpierw generuje się bez value
-    //jak ten efeket zniwelować ?
-    useEffect(() => {
-        initializeState({ counterId: id });
-        setInitialized(true)
-    }, [initializeState, id]);
-
+    
     return {
         increment,
         decrement,
